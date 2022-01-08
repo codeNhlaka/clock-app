@@ -7,7 +7,7 @@ import {
 import Screen from "./app/app";
 
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/',
+  uri: 'https://covid-api-graphql.herokuapp.com/',
   cache: new InMemoryCache()
 });
 
