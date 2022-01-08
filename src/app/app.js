@@ -14,7 +14,6 @@ function News(){
     )
 }
 
-
 function Time({ changeCurrentDisplay, currentDisplay, max, min }){
     const date = moment(new Date());
     const timezone = date.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z')
@@ -107,7 +106,7 @@ export default function Screen(){
         <div className="app">
             
             <div className="image">
-                <img src={ Image } />
+                <img src={ Image } alt="wallpaper"/>
                 <div className="fill"/>
             </div>
 
