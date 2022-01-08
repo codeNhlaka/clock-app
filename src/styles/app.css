@@ -294,4 +294,25 @@ button .icon-space {
   button {
     left: 5%;
   }
+
+  .location-summery-data {
+    width: 90%;
+    margin-top: 20px;
+    left: 5%;
+  }
+
+  .location-summery {
+    width: 100%;
+    left: 0;
+  }
+
+  .location-summery-data h1 {
+    font-size: 22px;
+  }
+
+  .location-summery .left {
+    width: 100%;
+    left: 0;
+    margin: 0;
+  }
 }

@@ -55,7 +55,7 @@ function News(){
         <div className="news">
             <h3>Covid 19 Updates</h3>
             { covidData && !error ? <p>{`We are currently standing on ${covidData.confirmed} confirmed cases, ${covidData.deaths} deaths, ${covidData.recovered} recoveries and ${covidData.active} active cases.` }</p> : <p>fetching...</p> }
-            { error ? <p>Something went wrong</p> : null }
+            { !loading && error ? <p>Something went wrong</p> : null }
         </div>
     )
 }
