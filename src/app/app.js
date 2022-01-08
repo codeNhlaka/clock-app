@@ -1,15 +1,61 @@
 import { useState } from 'react';
 import moment from "moment-timezone";
+import {
+    useQuery,
+    gql
+  } from "@apollo/client";
+
 import Image from "../resources/images/mountains.jpg"
 import "../styles/app.css";
 import { ArrowDown } from "../components/arrowIconDown";
 import { ArrowUp } from "../components/arrowIconUp";
 
+// graphql 
+const GET_DAILY_REPORTS = gql`
+    query GetDailyReports($countryName: String){
+        getDailyReportByCountryName(countryName: $countryName){
+            country,
+            provinces {
+                active,
+                recovered,
+                deaths,
+                confirmed
+            }
+        }
+  }            
+`;
+
 function News(){
+    const [covidData, setCovidData] = useState(null);
+
+    const { loading, error, data } = useQuery(GET_DAILY_REPORTS, {
+        variables: {
+            countryName: "South Africa"
+        }
+    });
+
+    if (data){
+        if (!covidData) {
+            const { provinces } = data.getDailyReportByCountryName[0];
+            const { deaths, active, confirmed, recovered } = provinces[0];
+    
+            const collection = {
+                deaths,
+                active,
+                confirmed,
+                recovered
+            }
+
+            setCovidData(collection);
+        }
+    }
+
+    
     return (
         <div className="news">
             <h3>Covid 19 Updates</h3>
-            <p>We are currently standing on 22 deaths, 32 confirmed negative and 21892 active cases.</p>
+            { covidData && !error ? <p>{`We are currently standing on ${covidData.confirmed} confirmed cases, ${covidData.deaths} deaths, ${covidData.recovered} recoveries and ${covidData.active} active cases.` }</p> : <p>fetching...</p> }
+            { error ? <p>Something went wrong</p> : null }
         </div>
     )
 }
