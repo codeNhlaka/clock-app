@@ -34,9 +34,6 @@ function News(){
         }
     });
 
-    if (error){
-        console.log(error)
-    }
     if (data){
         if (!covidData) {
             const { provinces } = data.getDailyReportByCountryName[0];
