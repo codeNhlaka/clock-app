@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import moment from "moment-timezone";
 import {
     useQuery,
@@ -10,7 +10,6 @@ import "../styles/app.css";
 import { ArrowDown } from "../components/arrowIconDown";
 import { ArrowUp } from "../components/arrowIconUp";
 
-// graphql 
 const GET_DAILY_REPORTS = gql`
     query GetDailyReports($countryName: String){
         getDailyReportByCountryName(countryName: $countryName){
@@ -59,8 +58,28 @@ function News(){
 }
 
 function Time({ changeCurrentDisplay, currentDisplay, max, min }){
+    const [currentMins, setMinutes] = useState("00");
+    const [currentHours, setHours] = useState("00");
+
     const date = moment(new Date());
-    const timezone = date.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z')
+    const timezone = date.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z');
+
+    setInterval(() => {
+
+        const currentDate = new Date();
+        
+        setMinutes((currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes()));
+        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours().getHours() : currentDate.getHours()));
+        
+    }, 1000);
+
+    useEffect(() => {
+        const currentDate = new Date();
+
+        setMinutes((currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes()));
+        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours().getHours() : currentDate.getHours()));
+
+    }, []);
 
     return (
         <div className={currentDisplay === max ? "time-h-max" : "time-h-min"}>
@@ -70,7 +89,7 @@ function Time({ changeCurrentDisplay, currentDisplay, max, min }){
 
                 <div className="time-data">
                     <p className="greet-message"><span className="icon"></span> Hello there, it's currently</p>
-                    <h1 className="current-time">11:37 <span className="timezone">{ timezone } </span></h1>
+                    <h1 className="current-time">{`${currentHours}:${currentMins}`} <span className="timezone">{ timezone } </span></h1>
                     <p className="location">{`in ${Intl.DateTimeFormat().resolvedOptions().timeZone }`}</p>
                 </div>
             </div>
