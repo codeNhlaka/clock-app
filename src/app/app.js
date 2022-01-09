@@ -15,12 +15,10 @@ const GET_DAILY_REPORTS = gql`
     query GetDailyReports($countryName: String){
         getDailyReportByCountryName(countryName: $countryName){
             country,
-            provinces {
-                active,
-                recovered,
-                deaths,
-                confirmed
-            }
+            deaths,
+            confirmed,
+            critical,
+            recovered
         }
   }            
 `;
@@ -36,14 +34,14 @@ function News(){
 
     if (data){
         if (!covidData) {
-            const { provinces } = data.getDailyReportByCountryName[0];
-            const { deaths, active, confirmed, recovered } = provinces[0];
-    
+            const { confirmed, critical, deaths, recovered, country } = data.getDailyReportByCountryName[0]
+            
             const collection = {
-                deaths,
-                active,
                 confirmed,
-                recovered
+                critical,
+                deaths, 
+                recovered,
+                country
             }
 
             setCovidData(collection);
@@ -54,7 +52,7 @@ function News(){
     return (
         <div className="news">
             <h3>Covid 19 Updates</h3>
-            { covidData && !error ? <p>{`We are currently standing on ${covidData.confirmed} confirmed cases, ${covidData.deaths} deaths, ${covidData.recovered} recoveries and ${covidData.active} active cases.` }</p> : <p>fetching...</p> }
+            { covidData && !error ? <p>{`We are currently standing on ${covidData.confirmed} confirmed cases, ${covidData.deaths} deaths and ${covidData.recovered} recoveries here in ${covidData.country}.` }</p> : <p>fetching...</p> }
             { !loading && error ? <p>Something went wrong</p> : null }
         </div>
     )
