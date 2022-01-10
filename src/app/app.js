@@ -64,21 +64,23 @@ function Time({ changeCurrentDisplay, currentDisplay, max, min }){
     const date = moment(new Date());
     const timezone = date.tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format('z');
 
-    setInterval(() => {
-
-        const currentDate = new Date();
-        
-        setMinutes((currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes()));
-        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours() : currentDate.getHours()));
-        
-    }, 1000);
-
     useEffect(() => {
         const currentDate = new Date();
 
         setMinutes((currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes()));
-        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours().getHours() : currentDate.getHours()));
+        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours() : currentDate.getHours()));
 
+        function updateTime(){
+            const now = new Date();
+            setMinutes((now.getMinutes() < 10 ? "0" + now.getMinutes() : now.getMinutes()));
+            setHours((now.getHours() < 10 ? "0" + now.getHours() : now.getHours()));
+        }
+
+        const timer = setInterval(() => updateTime(), 1000);
+
+        return (() => {
+            clearInterval(timer);
+        })
     }, []);
 
     return (
