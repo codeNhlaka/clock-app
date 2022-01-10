@@ -69,7 +69,7 @@ function Time({ changeCurrentDisplay, currentDisplay, max, min }){
         const currentDate = new Date();
         
         setMinutes((currentDate.getMinutes() < 10 ? "0" + currentDate.getMinutes() : currentDate.getMinutes()));
-        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours().getHours() : currentDate.getHours()));
+        setHours((currentDate.getHours() < 10 ? "0" + currentDate.getHours() : currentDate.getHours()));
         
     }, 1000);
 
